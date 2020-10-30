@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="View.NoteActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/WriterLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:fillViewport="true"
+        android:scrollbarStyle="outsideInset"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:orientation="vertical">
+
+            <!--- Esto se generará a parte -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                tools:ignore="UselessParent">
+
+                <CheckBox
+                    android:layout_width="50dp"
+                    android:layout_height="50dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|start"
+                    android:text="Hola mundillo "
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+            <!--- Hasta aquí  y QUITAR EL TEXTO-->
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+    <RelativeLayout android:id="@+id/WriterLayout"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentLeft="true"
+        android:orientation="horizontal"
+        android:padding="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_toStartOf="@+id/AddButton"
+            android:layout_toLeftOf="@+id/AddButton"
+            android:textSize="20sp"
+            android:inputType="text"
+            tools:ignore="Autofill,LabelFor" />
+
+        <Button android:id="@+id/AddButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            android:background="@drawable/add_button" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
