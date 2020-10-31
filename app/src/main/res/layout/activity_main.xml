@@ -24,24 +24,35 @@
             android:orientation="vertical">
 
             <!--- Esto se generará a parte -->
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:orientation="horizontal"
                 tools:ignore="UselessParent">
 
-                <CheckBox
-                    android:layout_width="50dp"
-                    android:layout_height="50dp" />
 
-                <TextView
+                <Button android:id="@+id/EnterListButton"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_toStartOf="@+id/DeleteListButton"
+                    android:layout_toLeftOf="@+id/DeleteListButton"
                     android:gravity="center|start"
-                    android:text="Hola mundillo "
-                    android:textSize="20sp" />
+                    android:shadowColor="@color/black"
+                    android:text="Hola mundillo mi16"
+                    android:textSize="16sp"
+                    android:onClick="PruebaEntrar"/>
 
-            </LinearLayout>
+                <Button android:id="@+id/DeleteListButton"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:shadowColor="@color/black"
+                    android:background="@drawable/delete"/>
+
+            </RelativeLayout>
             <!--- Hasta aquí  y QUITAR EL TEXTO-->
 
 
@@ -72,6 +83,7 @@
             android:layout_toLeftOf="@+id/AddButton"
             android:textSize="20sp"
             android:inputType="text"
+            android:maxLength="16"
             android:hint="Create new list"
             tools:ignore="Autofill,LabelFor" />
 
