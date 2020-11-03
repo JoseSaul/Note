@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="View.MainActivity">
+    tools:context="view.MainActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -21,44 +21,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="20dp"
-            android:orientation="vertical">
-
-            <!--- Esto se generará a parte -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal"
-                tools:ignore="UselessParent">
-
-
-                <Button android:id="@+id/EnterListButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_toStartOf="@+id/DeleteListButton"
-                    android:layout_toLeftOf="@+id/DeleteListButton"
-                    android:gravity="center|start"
-                    android:shadowColor="@color/black"
-                    android:text="Hola mundillo mi16"
-                    android:textSize="16sp" />
-
-                <Button android:id="@+id/DeleteListButton"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginRight="5dp"
-                    android:shadowColor="@color/black"
-                    android:background="@drawable/delete"/>
-
-            </RelativeLayout>
-            <!--- Hasta aquí  y QUITAR EL TEXTO-->
-
-
-        </LinearLayout>
+            android:orientation="vertical"/>
 
     </ScrollView>
-
 
     <RelativeLayout android:id="@+id/WriterLayout"
         android:layout_width="match_parent"
@@ -71,7 +36,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true">
 
-        <EditText
+        <EditText android:id="@+id/list_name"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_alignParentStart="true"
@@ -83,8 +48,8 @@
             android:textSize="20sp"
             android:inputType="text"
             android:maxLength="16"
-            android:hint="Create new list"
-            tools:ignore="Autofill,LabelFor" />
+            android:hint="@string/hint_create_list"
+            tools:ignore="Autofill,HardcodedText,LabelFor" />
 
         <Button android:id="@+id/AddButton"
             android:layout_width="50dp"
