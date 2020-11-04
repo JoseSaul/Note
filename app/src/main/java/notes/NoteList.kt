@@ -1,20 +1,30 @@
 package notes
 
-class NoteList {
+import java.io.Serializable
 
-    //lateinit var list: List<Note>
-    private var listname: String
+class NoteList(name: String) {
 
-    constructor(name: String){
-        listname = name
-    }
+    private var list: MutableList<Note> = mutableListOf()
+    private var listname: String = name
 
     fun addNote(note: Note){
-        //list.toMutableList().add(note)
+        list.add(note)
+    }
+
+    fun removeNote(text: String){
+        for (note in list){
+            if(note.getMessage() == text){
+                list.remove(note)
+            }
+        }
     }
 
     fun getName(): String {
         return this.listname
+    }
+
+    fun getNotes(): MutableList<Note> {
+        return list
     }
 
 }

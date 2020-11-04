@@ -1,5 +1,6 @@
 package view
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -53,6 +54,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("InflateParams")
     private fun addView(list: NoteList){
         val listView: View = layoutInflater.inflate(R.layout.add_list,null,false)
         val buttonEnter: Button = listView.findViewById(R.id.EnterListButton)
@@ -60,16 +62,18 @@ class MainActivity : AppCompatActivity() {
 
         buttonEnter.text = list.getName()
 
-        //buttonEnter.setOnClickListener(View.OnClickListener { pruebaEntrar() })
-        buttonDelete.setOnClickListener(View.OnClickListener { deleteView(listView, list) })
+        buttonEnter.setOnClickListener { openList(list) }
+        buttonDelete.setOnClickListener { deleteView(listView, list) }
 
         layoutlist.addView(listView)
     }
 
 
-    private fun pruebaEntrar(){
-        //val intent = Intent(this, NoteActivity::class.java)
-        //startActivity(a)
+    private fun openList(list: NoteList){
+        val intent = Intent(this, NoteActivity::class.java)
+        intent.putExtra("model", notesModel)
+        intent.putExtra("listname", list.getName())
+        startActivity(intent)
     }
 
     private fun deleteView(v: View, list: NoteList){

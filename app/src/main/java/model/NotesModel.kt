@@ -1,8 +1,11 @@
 package model
 
+import notes.Note
 import notes.NoteList
+import org.w3c.dom.NameList
+import java.io.Serializable
 
-class NotesModel {
+class NotesModel: Serializable {
 
     private var collectionlists : MutableList<NoteList>
 
@@ -28,6 +31,25 @@ class NotesModel {
     private fun updateList(lists: MutableList<NoteList>) {
         //Guardar Cambios------------------
         this.collectionlists = lists
+    }
+
+    fun getNoteList(name: String): NoteList? {
+        for (list in collectionlists){
+            if (list.getName() == name){
+                return list
+            }
+        }
+        return null
+    }
+
+    fun addNote(listname: String, note: Note){
+        var list = getNoteList(listname)
+        list!!.addNote(note)
+    }
+
+    fun deleteNote(name: String, text: String){
+        var list = getNoteList(name)
+        list!!.removeNote(text)
     }
 
 

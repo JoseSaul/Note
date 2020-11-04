@@ -17,35 +17,11 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true">
 
-        <LinearLayout
+        <LinearLayout android:id="@+id/layout_notes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="20dp"
-            android:orientation="vertical">
-
-            <!--- Esto se generará a parte -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                tools:ignore="UselessParent">
-
-                <CheckBox
-                    android:layout_width="50dp"
-                    android:layout_height="50dp" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center|start"
-                    android:text="Hola mundillo "
-                    android:textSize="20sp" />
-
-            </LinearLayout>
-            <!--- Hasta aquí  y QUITAR EL TEXTO-->
-
-
-        </LinearLayout>
+            android:orientation="vertical"/>
 
     </ScrollView>
 
@@ -61,7 +37,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true">
 
-        <EditText
+        <EditText   android:id="@+id/notes_writer"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_alignParentStart="true"
@@ -81,7 +57,8 @@
             android:layout_alignParentRight="true"
             android:layout_marginEnd="2dp"
             android:layout_marginRight="2dp"
-            android:background="@drawable/add_button" />
+            android:background="@drawable/add_button"
+            android:onClick="addNewNote"/>
 
     </RelativeLayout>
 
