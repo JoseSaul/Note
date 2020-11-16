@@ -1,11 +1,19 @@
 package notes
 
-import java.io.Serializable
+class NoteList {
 
-class NoteList(name: String) {
+    private var list: MutableList<Note>
+    private var name: String
 
-    private var list: MutableList<Note> = mutableListOf()
-    private var listname: String = name
+    constructor(name: String){
+        this.name = name
+        list = mutableListOf()
+    }
+
+    constructor(name: String, list: MutableList<Note>){
+        this.name = name
+        this.list = list
+    }
 
     fun addNote(note: Note){
         list.add(note)
@@ -20,7 +28,7 @@ class NoteList(name: String) {
     }
 
     fun getName(): String {
-        return this.listname
+        return this.name
     }
 
     fun getNotes(): MutableList<Note> {

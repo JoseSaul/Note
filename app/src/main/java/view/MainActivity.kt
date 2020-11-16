@@ -11,44 +11,39 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.note.R
 import model.NotesModel
-import notes.Note
 import notes.NoteList
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var layoutlist:LinearLayout
     private lateinit var listname: EditText
-    private lateinit var notesModel: NotesModel
+    private lateinit var model: NotesModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        notesModel = NotesModel()
+        model = NotesModel(getSharedPreferences("save", MODE_PRIVATE))
         layoutlist = findViewById(R.id.layout_list)
         listname = findViewById(R.id.list_name)
 
-        //initList(notesModel.getCollection())
-    }
-
-    private fun initList(collection: List<NoteList>) {
-        //Cargar las listas guardadas al iniciar
+        updateView()
     }
 
     fun addNewList(view: View){
         if (this.listname.text.toString() == "") return
-        notesModel.addList(NoteList(listname.text.toString()))
+        model.addList(NoteList(listname.text.toString()))
         updateView()
 
         listname.setText("")
     }
 
     private fun updateView() {
-        if (notesModel.getCollection().isNotEmpty()){
+        if (model.getCollection().isNotEmpty()){
             if (layoutlist.childCount > 0){
                 layoutlist.removeAllViews()
             }
-            for (list in notesModel.getCollection()){
+            for (list in model.getCollection()){
                 addView(list)
             }
         }
@@ -71,15 +66,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun openList(list: NoteList){
         val intent = Intent(this, NoteActivity::class.java)
-        intent.putExtra("model", notesModel)
-        intent.putExtra("listname", list.getName())
+        intent.putExtra("list name", list.getName())
         startActivity(intent)
     }
 
     private fun deleteView(v: View, list: NoteList){
         val toast = Toast.makeText(applicationContext, getString(R.string.removed_list), Toast.LENGTH_SHORT)
         toast.show()
-        notesModel.removeList(list)
+        model.removeList(list)
         layoutlist.removeView(v)
     }
 

@@ -1,5 +1,6 @@
 package view
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
@@ -9,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.note.R
 import model.NotesModel
 import notes.Note
-import notes.NoteList
 
 class NoteActivity : AppCompatActivity() {
 
@@ -22,8 +22,8 @@ class NoteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note)
 
-        model = intent.extras!!.getSerializable("model") as NotesModel
-        name = intent.extras!!.getString("listname").toString()
+        model = NotesModel(getSharedPreferences("save", MODE_PRIVATE))
+        name = intent.extras!!.getString("list name").toString()
 
         layoutnotes = findViewById(R.id.layout_notes)
         noteswriter = findViewById(R.id.notes_writer)
@@ -33,7 +33,7 @@ class NoteActivity : AppCompatActivity() {
 
 
     private fun updateView() {
-        var list = model.getNoteList(name)
+        val list = model.getNoteList(name)
         if (list!!.getNotes().isNotEmpty()){
             if (this.layoutnotes.childCount > 0){
                 layoutnotes.removeAllViews()
@@ -44,14 +44,11 @@ class NoteActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("InflateParams")
     private fun addView(note: Note){
         val notesView: View = layoutInflater.inflate(R.layout.add_notes,null,false)
         val notetext: TextView = notesView.findViewById(R.id.note_text)
-
         notetext.text = note.getMessage()
-
-        //buttonEnter.setOnClickListener {  }
-
         layoutnotes.addView(notesView)
     }
 

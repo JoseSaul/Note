@@ -1,40 +1,37 @@
 package model
 
+import android.content.SharedPreferences
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import notes.Note
 import notes.NoteList
-import org.w3c.dom.NameList
-import java.io.Serializable
 
-class NotesModel: Serializable {
+class NotesModel(private var sharedPreferences: SharedPreferences) {
 
-    private var collectionlists : MutableList<NoteList>
+    private var collectionLists : MutableList<NoteList>
+    private var gson: Gson = Gson()
 
-    constructor(){
-        collectionlists = mutableListOf()
-        //Leer lo guardado y cargarlo sobre collectionlists
+    init {
+        collectionLists = mutableListOf()
+        loadData()
     }
 
     fun getCollection() : MutableList<NoteList> {
-        return collectionlists
+        return collectionLists
     }
 
     fun addList(noteList: NoteList){
-        collectionlists.add(noteList)
-        updateList(collectionlists)
+        collectionLists.add(noteList)
+        saveData()
     }
     
     fun removeList(noteList: NoteList){
-        collectionlists.remove(noteList)
-        updateList(collectionlists)
-    }
-
-    private fun updateList(lists: MutableList<NoteList>) {
-        //Guardar Cambios------------------
-        this.collectionlists = lists
+        collectionLists.remove(noteList)
+        saveData()
     }
 
     fun getNoteList(name: String): NoteList? {
-        for (list in collectionlists){
+        for (list in collectionLists){
             if (list.getName() == name){
                 return list
             }
@@ -42,14 +39,30 @@ class NotesModel: Serializable {
         return null
     }
 
-    fun addNote(listname: String, note: Note){
-        var list = getNoteList(listname)
-        list!!.addNote(note)
+    fun addNote(name: String, note: Note){
+        getNoteList(name)!!.addNote(note)
+        saveData()
     }
 
     fun deleteNote(name: String, text: String){
-        var list = getNoteList(name)
+        val list = getNoteList(name)
         list!!.removeNote(text)
+    }
+
+    private fun saveData(){
+        val sp = sharedPreferences
+        val editor: SharedPreferences.Editor = sp.edit()
+        val json = gson.toJson(collectionLists)
+        editor.putString("list",json)
+        editor.apply()
+    }
+
+    private fun loadData(){
+        val json = sharedPreferences.getString("list",null)
+        if (!json.isNullOrEmpty()){
+            val type = object : TypeToken<MutableList<NoteList>>() {}.type
+            this.collectionLists = gson.fromJson(json, type)
+        }
     }
 
 
