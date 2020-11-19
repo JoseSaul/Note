@@ -44,6 +44,11 @@ class NotesModel(private var sharedPreferences: SharedPreferences) {
         saveData()
     }
 
+    fun checkNote(name: String, check: Boolean){
+        getNoteList(name)!!.checkNote(name,check)
+        saveData()
+    }
+
     fun deleteNote(name: String, text: String){
         val list = getNoteList(name)
         list!!.removeNote(text)

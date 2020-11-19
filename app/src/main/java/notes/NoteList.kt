@@ -1,6 +1,6 @@
 package notes
 
-class NoteList {
+class NoteList{
 
     private var list: MutableList<Note>
     private var name: String
@@ -23,6 +23,14 @@ class NoteList {
         for (note in list){
             if(note.getMessage() == text){
                 list.remove(note)
+            }
+        }
+    }
+
+    fun checkNote(text: String, check: Boolean){
+        for (note in list){
+            if(note.getMessage() == text){
+                note.setCheck(check)
             }
         }
     }

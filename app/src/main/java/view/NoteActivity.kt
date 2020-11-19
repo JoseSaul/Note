@@ -3,9 +3,7 @@ package view
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.note.R
 import model.NotesModel
@@ -31,13 +29,14 @@ class NoteActivity : AppCompatActivity() {
         updateView()
     }
 
-
     private fun updateView() {
         val list = model.getNoteList(name)
+
         if (list!!.getNotes().isNotEmpty()){
             if (this.layoutnotes.childCount > 0){
                 layoutnotes.removeAllViews()
             }
+
             for (note in list.getNotes()){
                 addView(note)
             }
@@ -47,8 +46,11 @@ class NoteActivity : AppCompatActivity() {
     @SuppressLint("InflateParams")
     private fun addView(note: Note){
         val notesView: View = layoutInflater.inflate(R.layout.add_notes,null,false)
+        val notecheck: CheckBox = notesView.findViewById(R.id.note_check)
         val notetext: TextView = notesView.findViewById(R.id.note_text)
         notetext.text = note.getMessage()
+        if (note.getCheck()) notecheck.isChecked = true
+        notecheck.setOnClickListener { onCheck(notetext.text.toString(), notecheck) }
         layoutnotes.addView(notesView)
     }
 
@@ -57,6 +59,10 @@ class NoteActivity : AppCompatActivity() {
         model.addNote(name, Note(noteswriter.text.toString()))
         updateView()
         noteswriter.setText("")
+    }
+
+    private fun onCheck(name: String, checkBox: CheckBox){
+        model.checkNote(name, checkBox.isChecked)
     }
 
 }

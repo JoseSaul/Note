@@ -11,7 +11,7 @@
         android:orientation="horizontal"
         tools:ignore="UselessParent">
 
-        <CheckBox
+        <CheckBox android:id="@+id/note_check"
             android:layout_width="50dp"
             android:layout_height="50dp" />
 

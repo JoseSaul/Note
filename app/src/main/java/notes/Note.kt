@@ -1,20 +1,28 @@
 package notes
 
-class Note {
+class Note{
 
-    private var check: Comparable<Boolean> = false
+    private var check = false
     private var message: String
 
     constructor(message: String){
         this.message = message
     }
 
-    constructor(check: Comparable<Boolean>, message: String){
+    constructor(check: Boolean, message: String){
         this.check = check
         this.message = message
     }
 
-    fun getMessage():String{
+    fun setCheck(check: Boolean){
+        this.check = check
+    }
+
+    fun getCheck(): Boolean{
+        return check
+    }
+
+    fun getMessage(): String{
         return message
     }
 }
