@@ -50,7 +50,7 @@ class NoteActivity : AppCompatActivity() {
         val notetext: TextView = notesView.findViewById(R.id.note_text)
         notetext.text = note.getMessage()
         if (note.getCheck()) notecheck.isChecked = true
-        notecheck.setOnClickListener { onCheck(notetext.text.toString(), notecheck) }
+        notecheck.setOnClickListener { onCheck(name, notetext.text.toString(), notecheck) }
         layoutnotes.addView(notesView)
     }
 
@@ -61,8 +61,8 @@ class NoteActivity : AppCompatActivity() {
         noteswriter.setText("")
     }
 
-    private fun onCheck(name: String, checkBox: CheckBox){
-        model.checkNote(name, checkBox.isChecked)
+    private fun onCheck(namelist: String, text: String, checkBox: CheckBox){
+        model.checkNote(namelist, text, checkBox.isChecked)
     }
 
 }

@@ -44,8 +44,8 @@ class NotesModel(private var sharedPreferences: SharedPreferences) {
         saveData()
     }
 
-    fun checkNote(name: String, check: Boolean){
-        getNoteList(name)!!.checkNote(name,check)
+    fun checkNote(namelist: String,text: String, check: Boolean){
+        getNoteList(namelist)!!.checkNote(text,check)
         saveData()
     }
 
