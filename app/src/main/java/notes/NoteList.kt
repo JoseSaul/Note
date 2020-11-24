@@ -19,12 +19,14 @@ class NoteList{
         list.add(note)
     }
 
-    fun removeNote(text: String){
+    fun removeNote(text: String): Boolean{
         for (note in list){
             if(note.getMessage() == text){
                 list.remove(note)
+                return true
             }
         }
+        return false
     }
 
     fun checkNote(text: String, check: Boolean){

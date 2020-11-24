@@ -2,6 +2,8 @@ package view
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +17,8 @@ class NoteActivity : AppCompatActivity() {
     private lateinit var noteswriter: EditText
     private lateinit var layoutnotes: LinearLayout
     private lateinit var name: String
+
+    private var menushow: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,11 +50,16 @@ class NoteActivity : AppCompatActivity() {
     @SuppressLint("InflateParams")
     private fun addView(note: Note){
         val notesView: View = layoutInflater.inflate(R.layout.add_notes,null,false)
+        val layout: LinearLayout = notesView.findViewById(R.id.notes_button)
         val notecheck: CheckBox = notesView.findViewById(R.id.note_check)
         val notetext: TextView = notesView.findViewById(R.id.note_text)
         notetext.text = note.getMessage()
         if (note.getCheck()) notecheck.isChecked = true
         notecheck.setOnClickListener { onCheck(name, notetext.text.toString(), notecheck) }
+        layout.setOnClickListener {if (!menushow){
+            Handler().postDelayed(Runnable { openDeleteMenu(notesView, name, notetext.text.toString()) },100)
+            menushow = true
+        }}
         layoutnotes.addView(notesView)
     }
 
@@ -64,5 +73,20 @@ class NoteActivity : AppCompatActivity() {
     private fun onCheck(namelist: String, text: String, checkBox: CheckBox){
         model.checkNote(namelist, text, checkBox.isChecked)
     }
+
+    private fun openDeleteMenu(view: View, namelist: String, text: String){
+        val popupMenu = PopupMenu(this, view)
+        popupMenu.setOnMenuItemClickListener{deleteNote(namelist, text)}
+        popupMenu.setOnDismissListener { menushow = false }
+        popupMenu.inflate(R.menu.delete_menu)
+        popupMenu.show()
+    }
+
+    private fun deleteNote(namelist: String, text: String): Boolean {
+        model.deleteNote(namelist, text)
+        updateView()
+        return true
+    }
+
 
 }
