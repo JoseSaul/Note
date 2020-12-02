@@ -2,20 +2,22 @@ package view
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.note.R
 import model.NotesModel
 import notes.NoteList
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
 
-    private lateinit var layoutlist:LinearLayout
+    private var settings = arrayOf(false)
+
+    private lateinit var layoutlist: LinearLayout
     private lateinit var listname: EditText
     private lateinit var model: NotesModel
 
@@ -27,7 +29,43 @@ class MainActivity : AppCompatActivity() {
         layoutlist = findViewById(R.id.layout_list)
         listname = findViewById(R.id.list_name)
 
+        loadPreferences()
         updateView()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.settings_menu, menu)
+        return true
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        val alphabetical: MenuItem = menu!!.findItem(R.id.alphabetical_orders)
+        alphabetical.isChecked = settings[0]
+        return super.onPrepareOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.alphabetical_orders -> {
+                item.isChecked = !item.isChecked
+                settings[0] = item.isChecked
+                updateView()
+            }
+        }
+        savePreferences()
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun savePreferences(){
+        val sharedPreferences: SharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPreferences.edit()
+        editor.putBoolean("Alphabetical", settings[0])
+        editor.apply()
+    }
+
+    private fun loadPreferences() {
+        val sharedPreferences: SharedPreferences = getSharedPreferences("sharedPrefs", MODE_PRIVATE)
+        settings[0] = sharedPreferences.getBoolean("Alphabetical", false)
     }
 
     fun addNewList(view: View){
@@ -43,7 +81,7 @@ class MainActivity : AppCompatActivity() {
             if (layoutlist.childCount > 0){
                 layoutlist.removeAllViews()
             }
-            for (list in model.getCollection()){
+            for (list in model.getCollection( settings[0] )){
                 addView(list)
             }
         }
@@ -63,7 +101,6 @@ class MainActivity : AppCompatActivity() {
         layoutlist.addView(listView)
     }
 
-
     private fun openList(list: NoteList){
         val intent = Intent(this, NoteActivity::class.java)
         intent.putExtra("list name", list.getName())
@@ -71,11 +108,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun deleteView(v: View, list: NoteList){
-        val toast = Toast.makeText(applicationContext, getString(R.string.removed_list), Toast.LENGTH_SHORT)
-        toast.show()
+        Toast.makeText(applicationContext, getString(R.string.removed_list), Toast.LENGTH_SHORT).show()
         model.removeList(list)
         layoutlist.removeView(v)
     }
-
 
 }

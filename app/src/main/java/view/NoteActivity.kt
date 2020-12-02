@@ -3,7 +3,6 @@ package view
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
-import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -57,7 +56,7 @@ class NoteActivity : AppCompatActivity() {
         if (note.getCheck()) notecheck.isChecked = true
         notecheck.setOnClickListener { onCheck(name, notetext.text.toString(), notecheck) }
         layout.setOnClickListener {if (!menushow){
-            Handler().postDelayed(Runnable { openDeleteMenu(notesView, name, notetext.text.toString()) },100)
+            Handler().postDelayed({ openDeleteMenu(notesView, name, notetext.text.toString()) },100)
             menushow = true
         }}
         layoutnotes.addView(notesView)

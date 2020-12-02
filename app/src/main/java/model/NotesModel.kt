@@ -20,6 +20,17 @@ class NotesModel(private var sharedPreferences: SharedPreferences) {
         return collectionLists
     }
 
+    fun getCollection(setting: Boolean) : MutableList<NoteList> {
+        return if (setting){
+            val reorganized: MutableList<NoteList> = mutableListOf()
+            for(list in collectionLists){
+                reorganized.add(list)
+            }
+            reorganized.sortBy { it.getName() }
+            reorganized
+        }else collectionLists
+    }
+
     fun addList(noteList: NoteList){
         collectionLists.add(noteList)
         saveData()

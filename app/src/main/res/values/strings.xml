@@ -12,4 +12,5 @@
     <string name="title_activity_prueba">Prueba</string>
     <string name="hint_create_list">Create new list</string>
     <string name="removed_list">Removed</string>
+    <string name="delete">Delete</string>
 </resources>
