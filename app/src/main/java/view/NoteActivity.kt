@@ -2,7 +2,6 @@ package view
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Handler
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -16,8 +15,6 @@ class NoteActivity : AppCompatActivity() {
     private lateinit var noteswriter: EditText
     private lateinit var layoutnotes: LinearLayout
     private lateinit var name: String
-
-    private var menushow: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,11 +32,11 @@ class NoteActivity : AppCompatActivity() {
     private fun updateView() {
         val list = model.getNoteList(name)
 
-        if (list!!.getNotes().isNotEmpty()){
-            if (this.layoutnotes.childCount > 0){
-                layoutnotes.removeAllViews()
-            }
+        if (this.layoutnotes.childCount > 0){
+            layoutnotes.removeAllViews()
+        }
 
+        if (list!!.getNotes().isNotEmpty()){
             for (note in list.getNotes()){
                 addView(note)
             }
@@ -55,10 +52,10 @@ class NoteActivity : AppCompatActivity() {
         notetext.text = note.getMessage()
         if (note.getCheck()) notecheck.isChecked = true
         notecheck.setOnClickListener { onCheck(name, notetext.text.toString(), notecheck) }
-        layout.setOnClickListener {if (!menushow){
-            Handler().postDelayed({ openDeleteMenu(notesView, name, notetext.text.toString()) },100)
-            menushow = true
-        }}
+        layout.setOnLongClickListener(){
+            openDeleteMenu(notesView, name, notetext.text.toString())
+            return@setOnLongClickListener true
+        }
         layoutnotes.addView(notesView)
     }
 
@@ -76,7 +73,6 @@ class NoteActivity : AppCompatActivity() {
     private fun openDeleteMenu(view: View, namelist: String, text: String){
         val popupMenu = PopupMenu(this, view)
         popupMenu.setOnMenuItemClickListener{deleteNote(namelist, text)}
-        popupMenu.setOnDismissListener { menushow = false }
         popupMenu.inflate(R.menu.delete_menu)
         popupMenu.show()
     }
